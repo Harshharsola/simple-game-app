@@ -16,9 +16,8 @@ interface UserDataInterface {
 }
 
 interface Iprops {
-  userData: UserDataInterface;
-  setUserData: React.Dispatch<React.SetStateAction<UserDataInterface>>;
-  setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  userId: string | undefined;
+  setUserId: React.Dispatch<React.SetStateAction<string | undefined>>;
   componentType: LogInComponentType;
 }
 
@@ -38,7 +37,11 @@ function LoginComponent(props: Iprops) {
   const [componentType, setComponentType] = useState<
     LogInComponentType.LOG_IN | LogInComponentType.SIGN_UP
   >(props.componentType);
-  const [userData, setUserData] = useState<UserDataInterface>(props.userData);
+  const [userData, setUserData] = useState<UserDataInterface>({
+    userName: "",
+    email: "",
+    password: "",
+  });
 
   const handleInputChange = (event: any) => {
     let data = {
@@ -73,8 +76,9 @@ function LoginComponent(props: Iprops) {
     } else {
       response = await logInApi(userData);
       if (response && response.status === "200") {
-        props.setLoggedIn(true);
         localStorage.setItem("jwtToken", response.data.accessToken);
+        localStorage.setItem("userId", response.data.userId);
+        props.setUserId(response.data.userId);
         setComponentType(LogInComponentType.LOG_IN);
         toast.success(response.message);
       } else {

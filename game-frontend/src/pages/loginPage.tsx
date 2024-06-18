@@ -3,12 +3,6 @@ import LoginComponent from "../components/loginComponent";
 import styled from "@emotion/styled";
 import { LogInComponentType } from "../constants";
 
-interface UserDataInterface {
-  userName?: string;
-  email: string;
-  password: string;
-  userId?: string;
-}
 const Modal = styled.div`
   background-color: white;
   width: 20%;
@@ -32,21 +26,18 @@ const Page = styled.div`
 `;
 
 function LoginPage({
-  userData,
-  setUserData,
+  userId,
+  setUserId,
 }: {
-  userData: UserDataInterface;
-  setUserData: React.Dispatch<React.SetStateAction<UserDataInterface>>;
+  userId: string | undefined;
+  setUserId: React.Dispatch<React.SetStateAction<string | undefined>>;
 }) {
-  const [logedIn, setLogedIn] = useState<boolean>(false);
-
   return (
     <Page>
       <LoginComponent
-        userData={userData}
-        setUserData={setUserData}
+        userId={userId}
+        setUserId={setUserId}
         componentType={LogInComponentType.SIGN_UP}
-        setLoggedIn={setLogedIn}
       />
     </Page>
   );

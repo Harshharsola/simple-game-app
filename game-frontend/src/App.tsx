@@ -2,24 +2,23 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { Toaster } from "react-hot-toast";
 import LoginPage from "./pages/loginPage";
+import GamePage from "./pages/gamePage";
 interface UserDataInterface {
-  userName?: string;
-  email: string;
-  password: string;
   userId?: string;
 }
 function App() {
-  const [userData, setUserData] = useState<UserDataInterface>({
-    userName: "",
-    email: "",
-    password: "",
-  });
+  const [userId, setUserId] = useState<string>();
+
   const [pageId, setPageId] = useState<string>("");
   useEffect(() => {}, []);
 
   return (
     <div>
-      <LoginPage userData={userData} setUserData={setUserData} />
+      {!userId ? (
+        <LoginPage userId={userId} setUserId={setUserId} />
+      ) : (
+        <GamePage userId={userId} />
+      )}
       <Toaster />
     </div>
   );
